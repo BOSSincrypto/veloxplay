@@ -2,12 +2,9 @@ package io.github.bossincrypto.velox
 
 import android.app.PictureInPictureParams
 import android.app.RemoteAction
-import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.drawable.Icon
@@ -21,9 +18,9 @@ import android.provider.MediaStore
 import android.util.Rational
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import android.view.SurfaceHolder
 import android.view.View
-import android.view.WindowManager
 import android.widget.SeekBar
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
@@ -89,10 +86,6 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    private val pipReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) = updatePipParams()
-    }
-
     private val playerListener = object : Player.Listener {
         override fun onVideoSizeChanged(videoSize: VideoSize) {
             if (videoSize.height == 0) return
@@ -140,11 +133,6 @@ class PlayerActivity : AppCompatActivity() {
         wireControls()
         wireGestures()
         handleIntent(intent)
-        registerReceiver(
-            pipReceiver,
-            IntentFilter(PipActionReceiver.INTENT_ACTION),
-            RECEIVER_NOT_EXPORTED,
-        )
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -171,7 +159,6 @@ class PlayerActivity : AppCompatActivity() {
     override fun onDestroy() {
         handler.removeCallbacksAndMessages(null)
         player.removeListener(playerListener)
-        unregisterReceiver(pipReceiver)
         if (isFinishing && !player.isPlaying) {
             player.clearMediaItems()
             stopService(Intent(this, PlaybackService::class.java))
@@ -416,6 +403,9 @@ class PlayerActivity : AppCompatActivity() {
         }
         Prefs.resizeMode = next
         binding.videoFrame.resizeMode = next
+        // Cycling the frame mode is also the way to undo a pinch zoom.
+        zoom = 1f
+        applyAspect()
         showHud(
             getString(
                 when (next) {
@@ -504,6 +494,18 @@ class PlayerActivity : AppCompatActivity() {
     // --- gestures ---------------------------------------------------------
 
     private fun wireGestures() {
+        val scaleDetector = ScaleGestureDetector(
+            this,
+            object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+                override fun onScale(detector: ScaleGestureDetector): Boolean {
+                    zoom = (zoom * detector.scaleFactor).coerceIn(1f, 3f)
+                    applyAspect()
+                    showHud((zoom * 100).toInt().toString() + "%")
+                    return true
+                }
+            },
+        )
+
         val detector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                 if (binding.controls.isVisible) setControlsVisible(false) else showControlsTemporarily()
@@ -556,7 +558,12 @@ class PlayerActivity : AppCompatActivity() {
         })
 
         binding.root.setOnTouchListener { view, event ->
-            detector.onTouchEvent(event)
+            scaleDetector.onTouchEvent(event)
+            // A second finger means the user is zooming, not seeking - drop any drag in flight.
+            if (event.actionMasked == MotionEvent.ACTION_POINTER_DOWN) {
+                gestureMode = GESTURE_NONE
+            }
+            if (!scaleDetector.isInProgress) detector.onTouchEvent(event)
             if (event.actionMasked == MotionEvent.ACTION_UP ||
                 event.actionMasked == MotionEvent.ACTION_CANCEL
             ) {
@@ -632,3 +639,4 @@ class PlayerActivity : AppCompatActivity() {
         private const val GESTURE_VOLUME = 3
     }
 }
+
