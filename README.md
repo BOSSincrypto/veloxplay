@@ -90,8 +90,8 @@ Everything is pinned to what was current on 13 August 2026.
 | | |
 |---|---|
 | Media3 / ExoPlayer | 1.11.0 |
-| Android Gradle Plugin | 9.3.0 (Kotlin support built in) |
-| Gradle | 9.5.0 |
+| Android Gradle Plugin | 9.3.1 (Kotlin support built in) |
+| Gradle | 9.7.0 |
 | compileSdk / targetSdk | 37.1 / 37 (Android 17) |
 | minSdk | 31 (Android 12) |
 | JDK | 17 |

@@ -68,8 +68,8 @@ APK появится в `app/build/outputs/apk/debug/`.
 | | |
 |---|---|
 | Media3 / ExoPlayer | 1.11.0 |
-| Android Gradle Plugin | 9.3.0 (Kotlin встроен) |
-| Gradle | 9.5.0 |
+| Android Gradle Plugin | 9.3.1 (Kotlin встроен) |
+| Gradle | 9.7.0 |
 | compileSdk / targetSdk | 37.1 / 37 (Android 17) |
 | minSdk | 31 (Android 12) |
 | JDK | 17 |
