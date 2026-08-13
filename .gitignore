@@ -11,4 +11,5 @@ captures/
 *.aab
 *.keystore
 *.jks
+!keystore/velox-public.p12
 release/

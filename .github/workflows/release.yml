@@ -68,7 +68,7 @@ jobs:
             echo
             echo "**Latest change:** $(git log -1 --pretty=format:'%s')"
             echo
-            echo "Signed with the standard Android debug key, so this APK installs cleanly but cannot be upgraded over a differently signed install."
+            echo "Signed with the repository key (\`keystore/velox-public.p12\`), so it installs as an upgrade over v1.0.8 and later. Coming from v1.0.7 or earlier? Uninstall the old build first — those were signed with a per-run CI debug key."
           } > dist/notes.md
 
       - name: Publish GitHub release

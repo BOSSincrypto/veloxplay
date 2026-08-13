@@ -50,7 +50,7 @@ Speed here is architecture, not a setting. The decisions that matter:
 
 Grab the APK from [Releases](https://github.com/BOSSincrypto/veloxplay/releases/latest). Every merge into `main` publishes a new one automatically.
 
-Releases are signed with the standard Android debug key. That is deliberate — it keeps the build reproducible by anyone with no secrets to configure. The trade-off is that you cannot upgrade over an install signed with a different key; uninstall first, or wire up a real keystore (see below).
+Releases are signed with [`keystore/velox-public.p12`](keystore), which is committed on purpose. It is not a secret: the point is that every release shares one signature, so each new APK installs straight over the previous one. Anyone can also reproduce a release build byte for byte. Do not treat it as a trust anchor — if you fork this for real distribution, swap in a private keystore (see below).
 
 ## Build
 

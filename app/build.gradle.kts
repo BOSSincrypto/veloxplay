@@ -17,6 +17,21 @@ android {
         versionName = System.getenv("VERSION_NAME") ?: "1.0.0-dev"
     }
 
+    signingConfigs {
+        create("release") {
+            // Not a secret, committed on purpose. Every release then carries the same
+            // signature and installs as an upgrade over the previous one. The CI default
+            // is a debug key generated fresh on each runner, which changes every build and
+            // makes upgrades fail with INSTALL_FAILED_UPDATE_INCOMPATIBLE.
+            // Swap in a private keystore before publishing anywhere that matters.
+            storeFile = rootProject.file("keystore/velox-public.p12")
+            storeType = "PKCS12"
+            storePassword = "android"
+            keyAlias = "velox"
+            keyPassword = "android"
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
@@ -29,9 +44,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-            // ponytail: debug keystore on purpose — no secrets needed to build a release.
-            // Swap for a real signingConfig when you want Play Store / upgradeable installs.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 
