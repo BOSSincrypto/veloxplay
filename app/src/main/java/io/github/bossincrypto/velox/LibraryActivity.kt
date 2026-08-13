@@ -5,8 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -37,10 +35,14 @@ class LibraryActivity : AppCompatActivity() {
     private val pickFile =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
             if (uri != null) {
-                contentResolver.takePersistableUriPermission(
-                    uri,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION,
-                )
+                // Not every provider grants a persistable permission; playback works either
+                // way, only the saved resume position would be unusable next launch.
+                runCatching {
+                    contentResolver.takePersistableUriPermission(
+                        uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION,
+                    )
+                }
                 open(uri, null)
             }
         }
@@ -49,7 +51,8 @@ class LibraryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLibraryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+        binding.toolbar.inflateMenu(R.menu.library)
+        binding.toolbar.setOnMenuItemClickListener(::onMenuClick)
 
         binding.list.layoutManager = LinearLayoutManager(this)
         binding.list.adapter = adapter
@@ -65,12 +68,7 @@ class LibraryActivity : AppCompatActivity() {
         if (hasPermission()) refresh() else showPermissionPrompt()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.library, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+    private fun onMenuClick(item: android.view.MenuItem): Boolean = when (item.itemId) {
         R.id.action_open_file -> {
             pickFile.launch(arrayOf("video/*", "application/x-mpegURL", "application/dash+xml"))
             true
@@ -83,7 +81,7 @@ class LibraryActivity : AppCompatActivity() {
             startActivity(Intent(this, SettingsActivity::class.java))
             true
         }
-        else -> super.onOptionsItemSelected(item)
+        else -> false
     }
 
     private fun hasPermission() =
