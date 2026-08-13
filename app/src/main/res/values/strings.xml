@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Velox</string>
+
+    <string name="no_videos">No videos on this device</string>
+    <string name="permission_rationale">Velox needs access to your videos to list them here.</string>
+    <string name="grant_access">Grant access</string>
+    <string name="open_file">Open file…</string>
+    <string name="open_url">Open URL…</string>
+    <string name="url_hint">https://example.com/stream.m3u8</string>
+    <string name="settings">Settings</string>
+
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="rewind">Rewind</string>
+    <string name="forward">Forward</string>
+    <string name="back">Back</string>
+    <string name="pip">Picture in picture</string>
+    <string name="resize">Aspect ratio</string>
+    <string name="snapshot">Save frame</string>
+    <string name="ab_loop">A-B loop</string>
+
+    <string name="playback_speed">Playback speed</string>
+    <string name="speed_is_global">Applies to every video, now and later.</string>
+    <string name="reset_to_normal">Reset to 1x</string>
+    <string name="hold_speed">Speed while holding the screen</string>
+    <string name="seek_step">Seek step</string>
+    <string name="seconds_value">%1$d s</string>
+    <string name="fast_seek">Fast seeking</string>
+    <string name="fast_seek_hint">Snap to the nearest keyframe. Seeks land instantly instead of decoding up to an exact frame.</string>
+    <string name="resume_playback">Remember position</string>
+    <string name="gestures">Gestures</string>
+    <string name="gestures_hint">Swipe left for brightness, right for volume, sideways to seek. Double-tap to skip, hold to speed up.</string>
+    <string name="background_playback">Keep playing in the background</string>
+
+    <string name="resize_fit">Fit</string>
+    <string name="resize_crop">Crop</string>
+    <string name="resize_stretch">Stretch</string>
+    <string name="brightness">Brightness</string>
+    <string name="volume">Volume</string>
+
+    <string name="ab_start_set">Loop start: %1$s</string>
+    <string name="ab_invalid">Loop end must come after the start</string>
+    <string name="ab_loop_on">A-B loop on</string>
+    <string name="ab_loop_off">A-B loop off</string>
+    <string name="snapshot_saving">Saving frame…</string>
+    <string name="snapshot_saved">Frame saved to Pictures/Velox</string>
+    <string name="snapshot_failed">Could not save the frame</string>
+</resources>
+

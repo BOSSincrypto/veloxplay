@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.Velox" parent="Theme.Material3.DynamicColors.DayNight">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.Velox.Player" parent="Theme.Velox">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="PlayerIcon">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:tint">@color/player_icon_tint</item>
+    </style>
+
+    <style name="PlayerIcon.Large">
+        <item name="android:layout_width">64dp</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginVertical">16dp</item>
+        <item name="android:background">?attr/colorOutlineVariant</item>
+    </style>
+
+    <style name="SettingSwitch">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceTitleMedium</item>
+    </style>
+
+    <style name="SettingHint">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceBodySmall</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
+</resources>
+

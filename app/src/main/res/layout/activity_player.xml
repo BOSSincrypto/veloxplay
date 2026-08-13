@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:keepScreenOn="true">
+
+    <androidx.media3.ui.AspectRatioFrameLayout
+        android:id="@+id/video_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:resize_mode="fit">
+
+        <SurfaceView
+            android:id="@+id/surface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.media3.ui.AspectRatioFrameLayout>
+
+    <ProgressBar
+        android:id="@+id/buffering"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/hud"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_hud"
+        android:gravity="center"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="12dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <!-- Overlay: everything here is GONE while playing, so it costs nothing per frame. -->
+    <FrameLayout
+        android:id="@+id/controls"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@drawable/bg_scrim_top"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp"
+            android:paddingTop="28dp"
+            android:paddingBottom="12dp">
+
+            <ImageButton
+                android:id="@+id/back"
+                style="@style/PlayerIcon"
+                android:contentDescription="@string/back"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_weight="1"
+                android:ellipsize="middle"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
+
+            <ImageButton
+                android:id="@+id/snapshot"
+                style="@style/PlayerIcon"
+                android:contentDescription="@string/snapshot"
+                android:src="@drawable/ic_snapshot" />
+
+            <ImageButton
+                android:id="@+id/ab_loop"
+                style="@style/PlayerIcon"
+                android:contentDescription="@string/ab_loop"
+                android:src="@drawable/ic_ab" />
+
+            <ImageButton
+                android:id="@+id/resize"
+                style="@style/PlayerIcon"
+                android:contentDescription="@string/resize"
+                android:src="@drawable/ic_resize" />
+
+            <ImageButton
+                android:id="@+id/pip"
+                style="@style/PlayerIcon"
+                android:contentDescription="@string/pip"
+                android:src="@drawable/ic_pip" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/rewind"
+                style="@style/PlayerIcon.Large"
+                android:contentDescription="@string/rewind"
+                android:src="@drawable/ic_rewind" />
+
+            <ImageButton
+                android:id="@+id/play"
+                style="@style/PlayerIcon.Large"
+                android:layout_marginHorizontal="28dp"
+                android:contentDescription="@string/play"
+                android:src="@drawable/ic_play" />
+
+            <ImageButton
+                android:id="@+id/forward"
+                style="@style/PlayerIcon.Large"
+                android:contentDescription="@string/forward"
+                android:src="@drawable/ic_forward" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_scrim_bottom"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="28dp">
+
+            <TextView
+                android:id="@+id/position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="48dp"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+
+            <SeekBar
+                android:id="@+id/seek_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="48dp"
+                android:gravity="end"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/speed"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:minWidth="0dp"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>
+

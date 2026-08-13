@@ -1,0 +1,82 @@
+name: Release
+
+# Every merge into main ships a release. Version comes from the run number,
+# so there is nothing to bump by hand.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install SDK packages
+        run: |
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKMANAGER" --licenses > /dev/null 2>&1 || true
+          "$SDKMANAGER" "platforms;android-37.1" "build-tools;36.0.0"
+
+      - name: Compute version
+        id: version
+        run: |
+          echo "name=1.0.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+          echo "code=${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+
+      - name: Build release APK
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.name }}
+          VERSION_CODE: ${{ steps.version.outputs.code }}
+        run: ./gradlew assembleRelease lintRelease --no-daemon --stacktrace
+
+      - name: Stage artifact
+        id: artifact
+        run: |
+          mkdir -p dist
+          src=$(find app/build/outputs/apk/release -name '*.apk' | head -n1)
+          out="dist/velox-${{ steps.version.outputs.name }}.apk"
+          cp "$src" "$out"
+          echo "path=$out" >> "$GITHUB_OUTPUT"
+          echo "size=$(du -h "$out" | cut -f1)" >> "$GITHUB_OUTPUT"
+
+      - name: Write release notes
+        run: |
+          {
+            echo "Automated build from \`${{ github.sha }}\`."
+            echo
+            echo "| | |"
+            echo "|---|---|"
+            echo "| APK size | ${{ steps.artifact.outputs.size }} |"
+            echo "| minSdk | 31 (Android 12) |"
+            echo "| targetSdk | 37 (Android 17) |"
+            echo
+            echo "**Latest change:** $(git log -1 --pretty=format:'%s')"
+            echo
+            echo "Signed with the standard Android debug key, so this APK installs cleanly but cannot be upgraded over a differently signed install."
+          } > dist/notes.md
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "v${{ steps.version.outputs.name }}" \
+            "${{ steps.artifact.outputs.path }}" \
+            --title "Velox v${{ steps.version.outputs.name }}" \
+            --notes-file dist/notes.md \
+            --latest

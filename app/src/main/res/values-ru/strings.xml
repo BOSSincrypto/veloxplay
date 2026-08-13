@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_videos">На устройстве нет видео</string>
+    <string name="permission_rationale">Velox нужен доступ к видео, чтобы показать их списком.</string>
+    <string name="grant_access">Дать доступ</string>
+    <string name="open_file">Открыть файл…</string>
+    <string name="open_url">Открыть ссылку…</string>
+    <string name="url_hint">https://example.com/stream.m3u8</string>
+    <string name="settings">Настройки</string>
+
+    <string name="play">Воспроизвести</string>
+    <string name="pause">Пауза</string>
+    <string name="rewind">Назад</string>
+    <string name="forward">Вперёд</string>
+    <string name="back">Назад</string>
+    <string name="pip">Картинка в картинке</string>
+    <string name="resize">Соотношение сторон</string>
+    <string name="snapshot">Сохранить кадр</string>
+    <string name="ab_loop">Повтор A-B</string>
+
+    <string name="playback_speed">Скорость воспроизведения</string>
+    <string name="speed_is_global">Применяется ко всем видео — сейчас и в дальнейшем.</string>
+    <string name="reset_to_normal">Сбросить на 1x</string>
+    <string name="hold_speed">Скорость при удержании экрана</string>
+    <string name="seek_step">Шаг перемотки</string>
+    <string name="seconds_value">%1$d с</string>
+    <string name="fast_seek">Быстрая перемотка</string>
+    <string name="fast_seek_hint">Переход к ближайшему ключевому кадру. Перемотка срабатывает мгновенно, без декодирования до точного кадра.</string>
+    <string name="resume_playback">Запоминать позицию</string>
+    <string name="gestures">Жесты</string>
+    <string name="gestures_hint">Свайп слева — яркость, справа — громкость, вбок — перемотка. Двойное касание — пропуск, удержание — ускорение.</string>
+    <string name="background_playback">Продолжать в фоне</string>
+
+    <string name="resize_fit">По размеру</string>
+    <string name="resize_crop">Обрезать</string>
+    <string name="resize_stretch">Растянуть</string>
+    <string name="brightness">Яркость</string>
+    <string name="volume">Громкость</string>
+
+    <string name="ab_start_set">Начало повтора: %1$s</string>
+    <string name="ab_invalid">Конец повтора должен быть позже начала</string>
+    <string name="ab_loop_on">Повтор A-B включён</string>
+    <string name="ab_loop_off">Повтор A-B выключен</string>
+    <string name="snapshot_saving">Сохраняю кадр…</string>
+    <string name="snapshot_saved">Кадр сохранён в Pictures/Velox</string>
+    <string name="snapshot_failed">Не удалось сохранить кадр</string>
+</resources>

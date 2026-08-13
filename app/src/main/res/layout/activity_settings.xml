@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="@string/settings" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/playback_speed"
+                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+                <TextView
+                    android:id="@+id/speed_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/speed_is_global"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?android:attr/textColorSecondary" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/speed_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/speed_reset"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reset_to_normal" />
+
+            <View style="@style/Divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/hold_speed"
+                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+                <TextView
+                    android:id="@+id/hold_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+            </LinearLayout>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/hold_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View style="@style/Divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/seek_step"
+                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+                <TextView
+                    android:id="@+id/step_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+            </LinearLayout>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/step_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View style="@style/Divider" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switch_fast_seek"
+                style="@style/SettingSwitch"
+                android:text="@string/fast_seek" />
+
+            <TextView
+                style="@style/SettingHint"
+                android:text="@string/fast_seek_hint" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switch_resume"
+                style="@style/SettingSwitch"
+                android:text="@string/resume_playback" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switch_gestures"
+                style="@style/SettingSwitch"
+                android:text="@string/gestures" />
+
+            <TextView
+                style="@style/SettingHint"
+                android:text="@string/gestures_hint" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switch_background"
+                style="@style/SettingSwitch"
+                android:text="@string/background_playback" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
