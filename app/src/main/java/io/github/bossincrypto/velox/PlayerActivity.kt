@@ -1,10 +1,12 @@
 package io.github.bossincrypto.velox
 
+import android.Manifest
 import android.app.PictureInPictureParams
 import android.app.RemoteAction
 import android.content.ComponentName
 import android.content.ContentValues
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.drawable.Icon
@@ -22,8 +24,10 @@ import android.view.ScaleGestureDetector
 import android.view.SurfaceHolder
 import android.view.View
 import android.widget.SeekBar
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -76,6 +80,11 @@ class PlayerActivity : AppCompatActivity() {
     private var seekTarget = 0L
 
     private val hideControls = Runnable { setControlsVisible(false) }
+
+    /** Without this the media notification is hidden on Android 13+, so background
+     *  playback would run with no way to control or stop it. */
+    private val requestNotifications =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
     private val tick = object : Runnable {
         override fun run() {
@@ -132,6 +141,7 @@ class PlayerActivity : AppCompatActivity() {
 
         wireControls()
         wireGestures()
+        askForNotificationsIfNeeded()
         handleIntent(intent)
     }
 
@@ -164,6 +174,16 @@ class PlayerActivity : AppCompatActivity() {
             stopService(Intent(this, PlaybackService::class.java))
         }
         super.onDestroy()
+    }
+
+    private fun askForNotificationsIfNeeded() {
+        if (!Prefs.backgroundPlayback) return
+        if (android.os.Build.VERSION.SDK_INT < 33) return
+        val granted = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.POST_NOTIFICATIONS,
+        ) == PackageManager.PERMISSION_GRANTED
+        if (!granted) requestNotifications.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 
     // --- media ------------------------------------------------------------
